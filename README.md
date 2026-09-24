@@ -7,6 +7,7 @@ A small, runnable TypeScript reference for a reviewed **feature spec → ticket 
 Requires Node 22.18+.
 
 ```bash
+npm install
 npm run preview
 npm test
 npm run typecheck
