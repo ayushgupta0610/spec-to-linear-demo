@@ -1,0 +1,12 @@
+{
+  "packages": [
+    { "name": "apps/analytics-console", "kind": "app", "mayDependOn": ["packages/analytics-domain", "packages/analytics-ui"] },
+    { "name": "packages/analytics-ui", "kind": "ui", "mayDependOn": ["packages/analytics-domain"] },
+    { "name": "packages/analytics-domain", "kind": "domain", "mayDependOn": [] }
+  ],
+  "rules": [
+    "Tenant database selection stays in the application boundary.",
+    "Domain packages must not import Next.js or browser APIs.",
+    "Every ticket must name its target package and a way to verify the result."
+  ]
+}

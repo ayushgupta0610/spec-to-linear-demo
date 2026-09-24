@@ -1,0 +1,55 @@
+{
+  "featureId": "analytics-event-inspector",
+  "projectName": "Analytics Event Inspector",
+  "teamName": "Engineering",
+  "summary": "Show a tenant-scoped list of captured analytics events, with their validation status and payload details.",
+  "decisions": [
+    "Captured event payloads are stored in the selected tenant database.",
+    "The first slice is read-only; editing tracking configuration is out of scope."
+  ],
+  "openQuestions": [],
+  "tickets": [
+    {
+      "key": "event-model",
+      "title": "Define captured event and validation result types",
+      "package": "packages/analytics-domain",
+      "goal": "Represent captured events and validation results without application or browser dependencies.",
+      "acceptance": [
+        "Types represent event name, timestamp, source URL, payload and validation status.",
+        "Invalid or incomplete payloads have an explicit result instead of being silently dropped.",
+        "Domain tests cover valid and invalid event examples."
+      ],
+      "estimate": 3,
+      "labels": ["Feature"],
+      "dependsOn": []
+    },
+    {
+      "key": "event-list",
+      "title": "Render event list and payload details",
+      "package": "packages/analytics-ui",
+      "goal": "Make captured events inspectable by name, time and validation result.",
+      "acceptance": [
+        "The list shows event name, timestamp, source and validation status.",
+        "Selecting an event reveals its payload and validation findings.",
+        "Empty and invalid-event states are visible in a component test."
+      ],
+      "estimate": 5,
+      "labels": ["Feature"],
+      "dependsOn": ["event-model"]
+    },
+    {
+      "key": "tenant-route",
+      "title": "Add tenant-scoped inspector route",
+      "package": "apps/analytics-console",
+      "goal": "Load captured events from the active tenant database and display the inspector.",
+      "acceptance": [
+        "The App Router page resolves the tenant before querying events.",
+        "The page uses the shared UI package and never queries a different tenant database.",
+        "Tests cover authorized access, missing tenant context and the empty state."
+      ],
+      "estimate": 5,
+      "labels": ["Feature"],
+      "dependsOn": ["event-model", "event-list"]
+    }
+  ]
+}

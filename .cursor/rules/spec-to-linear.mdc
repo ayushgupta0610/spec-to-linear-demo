@@ -1,0 +1,6 @@
+---
+description: Turn an approved feature spec into reviewable Linear work
+alwaysApply: false
+---
+
+Read `architecture.json`, the relevant package manifests, boundary rules and affected source files before drafting a spec. Use `prompts/spec-author.md` for the conversation and `prompts/ticket-review.md` for the ticket pass. Keep unresolved decisions in `openQuestions`. Run the preview command and show the exact approval code to the team. Do not run the publishing command until a human approves that exact preview.
