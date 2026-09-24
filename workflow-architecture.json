@@ -1,0 +1,14 @@
+{
+  "packages": [
+    { "name": "workflow/planner", "kind": "domain", "path": "src/plan.ts", "mayDependOn": ["workflow/model"] },
+    { "name": "workflow/model", "kind": "types", "path": "src/model.ts", "mayDependOn": [] },
+    { "name": "workflow/linear-adapter", "kind": "integration", "path": "src/linear.ts", "mayDependOn": ["workflow/planner", "workflow/model"] },
+    { "name": "workflow/cli", "kind": "entrypoint", "path": "src/cli.ts", "mayDependOn": ["workflow/planner", "workflow/model", "workflow/linear-adapter"] }
+  ],
+  "rules": [
+    "Planning and approval hashes stay independent of Linear and Composio.",
+    "Linear reads and writes stay in the integration adapter.",
+    "The CLI may orchestrate the workflow but must not contain ticket planning rules.",
+    "A revision must show its exact diff and receive a new approval code before any Linear update."
+  ]
+}

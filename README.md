@@ -15,6 +15,8 @@ npm run typecheck
 
 The preview prints a project, a parent feature issue, three ordered implementation tickets, acceptance criteria, package targets, estimates and dependencies. It ends with a 12-character approval code. Change a ticket or architecture rule and the code changes. `preview` makes no network calls.
 
+For a short screen recording of the brainstorming step and a live Linear write, follow [`demo/LOOM-RUNBOOK.md`](demo/LOOM-RUNBOOK.md). The recording prompt uses this repository's own `src/linear.ts` and `src/plan.ts`, with `workflow-architecture.json` as its architecture map.
+
 ## Use it with a repository and Linear
 
 1. Replace `architecture.json` with package names and rules derived from the real Turborepo, ESLint and dependency-cruiser configuration. This example checks named targets; the repository's own lint and boundary checks remain authoritative for imports.
@@ -27,6 +29,8 @@ The preview prints a project, a parent feature issue, three ordered implementati
 COMPOSIO_USER_ID=your-connected-user-id node --experimental-strip-types src/cli.ts check-linear examples/analytics-inspector.json
 COMPOSIO_USER_ID=your-connected-user-id node --experimental-strip-types src/cli.ts publish examples/analytics-inspector.json --approve CODE_FROM_PREVIEW
 ```
+
+For another architecture map, pass `--architecture workflow-architecture.json` to both `preview` and `publish`. The approval code binds to the selected map as well as the spec.
 
 Publication creates or reuses an exact-name project in the selected team, creates a parent feature issue, then sub-issues and `blocks` relationships in dependency order. Issue titles include stable spec keys. Before writing, the publisher searches for those keys and stops if a previous run left any issues; inspect partial runs instead of blindly replaying them. It does not merge code or operate Cursor unattended.
 
