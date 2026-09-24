@@ -38,3 +38,7 @@ Publication creates or reuses an exact-name project in the selected team, create
 - Linear writes are sequential and checked for success. A partial write is visible and stops the next run for manual reconciliation.
 
 This is a new reference implementation built to demonstrate the workflow, not a claim that it has been operated inside a client's enterprise monorepo. The included example can be previewed offline; live publication requires a connected Linear workspace and an approved spec.
+
+## Live smoke test
+
+On 2026-09-24, this workflow created a [demo project in my Linear workspace](https://linear.app/ai-agency-corp/project/spec-to-linear-demo-analytics-inspector-d5d21e1ae4e9): parent issue `AI-43`, three labeled and estimated sub-issues `AI-44` through `AI-46`, and three blocking relationships. A read-back confirmed the project and `AI-46`'s parent, label, estimate and acceptance criteria. Replaying the same approved spec stops on the existing parent issue before any new write. The Linear link may require workspace access; the repository and offline preview are public.

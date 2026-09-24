@@ -66,18 +66,16 @@ export function checkLinear(spec: FeatureSpec): { teamId: string; teamName: stri
   return { teamId: text(team.id), teamName: spec.teamName, projectNames: projects.map((item) => text(item.name)), projectIds: array(team.projects).map((item) => text(item.id)) };
 }
 
-function findExistingIssue(spec: FeatureSpec, key: string): RecordValue[] {
-  const needle = `[${spec.featureId}/${key}]`;
-  const matches: RecordValue[] = [];
+function teamIssues(teamId: string): RecordValue[] {
+  const issues: RecordValue[] = [];
   let after: string | undefined;
   do {
-    const data = callLinear("LINEAR_SEARCH_ISSUES", { query: spec.featureId, first: 50, ...(after ? { after } : {}) });
-    const results = array(data.issues);
-    matches.push(...results.filter((item) => typeof item.title === "string" && item.title.startsWith(needle)));
+    const data = callLinear("LINEAR_LIST_ISSUES_BY_TEAM_ID", { team_id: teamId, first: 250, ...(after ? { after } : {}) });
+    issues.push(...array(data.issues));
     const page = object(data.page_info);
-    after = page.hasNextPage === true ? text(page.endCursor) : undefined;
+    after = page.has_next_page === true ? text(page.end_cursor) : undefined;
   } while (after);
-  return matches;
+  return issues;
 }
 
 export function publish(spec: FeatureSpec, tickets: Ticket[]): void {
@@ -87,8 +85,12 @@ export function publish(spec: FeatureSpec, tickets: Ticket[]): void {
   if (projectMatches.length > 1) throw new Error(`Multiple projects named ${spec.projectName}; choose a unique name`);
 
   // A partial prior run needs inspection. Never create another copy of an issue blindly.
+  const existing = teamIssues(teamId);
   for (const key of ["feature", ...tickets.map((ticket) => ticket.key)]) {
-    if (findExistingIssue(spec, key).length) throw new Error(`Existing issue found for ${key}; reconcile the previous run before retrying`);
+    const prefix = `[${spec.featureId}/${key}]`;
+    if (existing.some((issue) => typeof issue.title === "string" && issue.title.startsWith(prefix))) {
+      throw new Error(`Existing issue found for ${key}; reconcile the previous run before retrying`);
+    }
   }
 
   const labels = pageItems("LINEAR_LIST_LINEAR_LABELS", "labels", { team_id: teamId }).filter((item) => item.is_group !== true);
