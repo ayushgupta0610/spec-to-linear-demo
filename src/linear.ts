@@ -122,4 +122,10 @@ export function publish(spec: FeatureSpec, tickets: Ticket[]): void {
     process.stdout.write(`Linked ${dependency} blocks ${ticket.key}\n`);
   }
   process.stdout.write(`Created project ${projectId} and parent feature ${parentId}\n`);
+  try {
+    const project = object(callLinear("LINEAR_GET_LINEAR_PROJECT", { project_id: projectId }).project);
+    if (typeof project.url === "string") process.stdout.write(`Project URL: ${project.url}\n`);
+  } catch {
+    process.stdout.write(`Project URL lookup unavailable; open project ID ${projectId} in Linear\n`);
+  }
 }

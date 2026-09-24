@@ -7,7 +7,7 @@ This recording uses **Codex in the `spec-to-linear` repository** and your own co
 1. Clone the public repository into a fresh recording folder so Codex sees normal Git history. Run `npm install`, `npm test`, and `npm run typecheck` beforehand. Run `composio dev init -y --no-browser` in that clone and set `COMPOSIO_USER_ID` in the terminal session before recording. Open the clone and Linear side by side at readable zoom. Do not show an environment file, Composio configuration, or credentials on camera.
 2. Choose the **Web3** team for the private demo. The public repo's example team is fictional; tell Codex to set `teamName` to `Web3` in this recording. Use a distinct project name such as `Spec Revision Workflow Demo`.
 3. Open `src/linear.ts` around the existing-issue guard and `src/plan.ts` around the approval hash. These make the codebase insight easy to see when Codex refers to them.
-4. Open Codex in this repository. Its `AGENTS.md` supplies the planning and approval boundaries. Set the terminal font large enough to read on a laptop screen.
+4. Start `codex --no-alt-screen` in the clone. Its `AGENTS.md` supplies the planning and approval boundaries, and the inline terminal mode preserves scrollback for recording. Set the terminal font large enough to read on a laptop screen.
 
 ## Conversation to record
 
